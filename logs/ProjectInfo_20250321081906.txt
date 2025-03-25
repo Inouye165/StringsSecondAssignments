@@ -1,0 +1,104 @@
+﻿==================================================
+Project Information Log - Generated on 2025-03-21 08:19:06
+==================================================
+
+--------------------------------------------------
+File: C:\Users\inouy\duke_coursera\StringsFirstAssignments\README.md
+--------------------------------------------------
+## Getting Started
+
+Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+
+## Folder Structure
+
+The workspace contains two folders by default, where:
+
+- `src`: the folder to maintain sources
+- `lib`: the folder to maintain dependencies
+
+Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+
+> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+
+## Dependency Management
+
+The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+
+--------------------------------------------------
+File: C:\Users\inouy\duke_coursera\StringsFirstAssignments\src\Part1.java
+--------------------------------------------------
+public class Part1 {
+
+    public String findSimpleGene(String dna) {
+        // Find the start codon "ATG"
+        int startIndex = dna.indexOf("ATG");
+        if (startIndex == -1) {
+            return ""; // No ATG found
+        }
+
+        // Find the stop codon "TAA" after the start codon
+        int stopIndex = dna.indexOf("TAA", startIndex + 3);
+        if (stopIndex == -1) {
+            return ""; // No TAA found after ATG
+        }
+
+        // Check if the length of the substring is a multiple of 3
+        if ((stopIndex - startIndex) % 3 == 0) {
+            return dna.substring(startIndex, stopIndex + 3); // Include TAA
+        } else {
+            return ""; // Not a multiple of 3
+        }
+    }
+
+    public void testSimpleGene() {
+        String[] dnaStrings = {
+                "AAATGCCCTAACTAGATTAAGAAACC",   // Valid gene
+                "ATCCTATGCTTCGGCTGCTCTAATATGGT", // No TAA *after* ATG
+                "ATCCTTCGGCTGCTCTTTGGT",       // No ATG
+                "ATCCTATGCTTCGGCTGCTCTATGGT",   // No ATG or TAA
+                "ATGCGTCTATGACTAACGG"          // Not a multiple of 3
+        };
+
+        for (String dna : dnaStrings) {
+            System.out.println("DNA String: " + dna);
+            String gene = findSimpleGene(dna);
+            System.out.println("Gene: " + gene);
+            System.out.println(); // Print an empty line for separation
+        }
+    }
+}
+
+--------------------------------------------------
+File: C:\Users\inouy\duke_coursera\StringsFirstAssignments\src\App.java
+--------------------------------------------------
+public class App {
+    public static void main(String[] args) {
+        Part1 part1 = new Part1();      // Create an instance of Part1
+        part1.testSimpleGene();          // Call the testSimpleGene method
+    }
+}
+
+==================================================
+Directory Structure (Filtered)
+==================================================
+[Folder] .vscode
+[Folder] bin
+[Folder] lib
+[Folder] logs
+[Folder] src
+  - README.md
+  - bin\App.class
+  - bin\Part1.class
+  - logs\ProjectInfo_20250321072729.txt
+  - src\App.class
+  - src\App.java
+  - src\Part1.class
+  - src\Part1.java
+==================================================
+System & Software Information
+==================================================
+OS: Microsoft Windows 11 Home
+Java Version: 21.0.5
+Maven Version: Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Spring Boot: Not Detected
