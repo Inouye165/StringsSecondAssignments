@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class App {
-    public static void main(String[]args) {
+    public static void main(String[] args) {
         // Create a Scanner for reading user input from the console
         Scanner scanner = new Scanner(System.in);
         boolean exit = false; // Flag to control the menu loop
@@ -25,23 +25,19 @@ public class App {
                     Part1 part1 = new Part1();
                     System.out.println("\n--- Running Part1 tests ---");
                     part1.testFindStopCodon();
-                    part1.testFindGene(); // Calling testFindGene as per Part 1 requirements
-                    // If you still need testFindAllGenes in your Part1, ensure it exists.
-                    // part1.testFindAllGenes();
-                    part1.testPrintAllGenes(); // Ensure this is called as per Part 1 requirements
+                    part1.testFindGene();
+                    part1.testPrintAllGenes();
                     break;
                 case "2":
-                    // Run Part2 placeholder
-                    // Part2 part2 = new Part2();
+                    // Run Part2
+                    Part2 part2 = new Part2();
                     System.out.println("\n--- Running Part2 ---");
-                    // Ensure testHowMany method exists in Part2
-                    // part2.testHowMany();
+                    part2.testHowMany();
                     break;
                 case "3":
-                    // Run Part3 placeholder
+                    // Run Part3
                     // Part3 part3 = new Part3();
                     System.out.println("\n--- Running Part3 ---");
-                    // Ensure testCountGenes method exists in Part3
                     // part3.testCountGenes();
                     break;
                 case "4":
