@@ -1,51 +1,64 @@
 import java.util.Scanner;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[]args) {
+        // Create a Scanner for reading user input from the console
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        boolean exit = false; // Flag to control the menu loop
 
-        do {
-            System.out.println("Choose which part to run:");
-            System.out.println("1. Part1");
-            System.out.println("2. Part2");
-            System.out.println("3. Part3");
-            System.out.println("4. Part4 (YouTube Link Finder)");
-            System.out.println("0. Exit");
+        // Loop until the user chooses to exit
+        while (!exit) {
+            // Display the menu options to the user
+            System.out.println("=== StringsSecondAssignments Menu ===");
+            System.out.println("1 - Run Part1 tests (find stop codons and genes)");
+            System.out.println("2 - Run Part2");
+            System.out.println("3 - Run Part3");
+            System.out.println("4 - Exit");
             System.out.print("Enter your choice: ");
 
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            // Read the user's choice as a string (to handle both numbers and text like "exit")
+            String choice = scanner.nextLine().trim().toLowerCase();
 
             switch (choice) {
-                case 1:
-                    System.out.println("Running Part1:");
+                case "1":
+                    // Run Part1 tests: find stop codons and find genes
                     Part1 part1 = new Part1();
-                    part1.testSimpleGene();
+                    System.out.println("\n--- Running Part1 tests ---");
+                    part1.testFindStopCodon();
+                    part1.testFindGene(); // Calling testFindGene as per Part 1 requirements
+                    // If you still need testFindAllGenes in your Part1, ensure it exists.
+                    // part1.testFindAllGenes();
+                    part1.testPrintAllGenes(); // Ensure this is called as per Part 1 requirements
                     break;
-                case 2:
-                    System.out.println("Running Part2:");
-                    Part2 part2 = new Part2();
-                    part2.testSimpleGene();
+                case "2":
+                    // Run Part2 placeholder
+                    // Part2 part2 = new Part2();
+                    System.out.println("\n--- Running Part2 ---");
+                    // Ensure testHowMany method exists in Part2
+                    // part2.testHowMany();
                     break;
-                case 3:
-                    System.out.println("Running Part3:");
-                    Part3 part3 = new Part3();
-                    part3.testing();
+                case "3":
+                    // Run Part3 placeholder
+                    // Part3 part3 = new Part3();
+                    System.out.println("\n--- Running Part3 ---");
+                    // Ensure testCountGenes method exists in Part3
+                    // part3.testCountGenes();
                     break;
-                case 4:
-                    System.out.println("Running Part4 (YouTube Link Finder):");
-                    Part4 part4 = new Part4();
-                    part4.findYouTubeLinks(); // Automatically fetches the page
-                    break;
-                case 0:
-                    System.out.println("Exiting...");
+                case "4":
+                case "exit":
+                    // Exit the program loop
+                    exit = true;
+                    System.out.println("Exiting program. Goodbye!");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    // Handle any invalid menu inputs
+                    System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.");
+                    break;
             }
-        } while (choice != 0);
 
-        scanner.close();
+            System.out.println(); // Print a blank line for spacing before the next menu display
+        }
+
+        scanner.close(); // Close the Scanner resource
     }
 }

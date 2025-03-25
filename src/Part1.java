@@ -1,40 +1,166 @@
 public class Part1 {
 
-    public String findSimpleGene(String dna) {
-        // Find the start codon "ATG"
+    public int findStopCodon(String dna, int startIndex, String stopCodon) {
+        // Ensure startIndex is valid and we're looking for a stop codon after the start codon
+        if (startIndex < 0 || startIndex + 3 > dna.length()) {
+            return -1;
+        }
+
+        int currIndex = dna.indexOf(stopCodon, startIndex + 3);
+
+        while (currIndex != -1) {
+            // Check if the stop codon is a multiple of 3 from the start
+            if ((currIndex - startIndex) % 3 == 0) {
+                return currIndex;
+            }
+            // Look for next occurrence of stop codon
+            currIndex = dna.indexOf(stopCodon, currIndex + 1);
+        }
+
+        // No valid stop codon found
+        return -1;
+    }
+    public void testFindStopCodon() {
+        System.out.println("=== testFindStopCodon ===");
+
+        String dna = "ATGxxxyyyTAAzzz";
+        int result = findStopCodon(dna, 0, "TAA");
+        System.out.println("DNA: " + dna);
+        System.out.println("Stop codon: TAA, Result index: " + result + " (Expected: 9)");
+
+        dna = "ATGxxxyyyTAAzzz";
+        result = findStopCodon(dna, 0, "TAG");
+        System.out.println("Stop codon: TAG, Result index: " + result + " (Expected: -1)");
+
+        dna = "ATGxxxyyyTAAzzz";
+        result = findStopCodon(dna, 0, "TGA");
+        System.out.println("Stop codon: TGA, Result index: " + result + " (Expected: -1)");
+
+        dna = "ATGxxTAAyyTAA";
+        result = findStopCodon(dna, 0, "TAA");
+        System.out.println("DNA: " + dna);
+        System.out.println("Stop codon: TAA, Result index: " + result + " (Expected: -1)");
+
+        dna = "ATGxxxxx";
+        result = findStopCodon(dna, 0, "TAA");
+        System.out.println("DNA: " + dna);
+        System.out.println("Stop codon: TAA, Result index: " + result + " (Expected: -1)");
+
+        System.out.println();
+    }
+
+    public String findGene(String dna) {
         int startIndex = dna.indexOf("ATG");
         if (startIndex == -1) {
-            return ""; // No ATG found
+            return "";
         }
 
-        // Find the stop codon "TAA" after the start codon
-        int stopIndex = dna.indexOf("TAA", startIndex + 3);
-        if (stopIndex == -1) {
-            return ""; // No TAA found after ATG
+        int taaIndex = findStopCodon(dna, startIndex, "TAA");
+        int tagIndex = findStopCodon(dna, startIndex, "TAG");
+        int tgaIndex = findStopCodon(dna, startIndex, "TGA");
+
+        // Pick the smallest valid stop codon index
+        int minIndex = dna.length();
+        boolean foundStop = false;
+        if (taaIndex != -1 && taaIndex < minIndex) {
+            minIndex = taaIndex;
+            foundStop = true;
+        }
+        if (tagIndex != -1 && tagIndex < minIndex) {
+            minIndex = tagIndex;
+            foundStop = true;
+        }
+        if (tgaIndex != -1 && tgaIndex < minIndex) {
+            minIndex = tgaIndex;
+            foundStop = true;
         }
 
-        // Check if the length of the substring is a multiple of 3
-        if ((stopIndex - startIndex) % 3 == 0) {
-            return dna.substring(startIndex, stopIndex + 3); // Include TAA
-        } else {
-            return ""; // Not a multiple of 3
+        if (!foundStop) {
+            return "";
+        }
+
+        return dna.substring(startIndex, minIndex + 3);
+    }
+
+    public void testFindGene() {
+        System.out.println("=== testFindGene ===");
+
+        String dna, result;
+
+        dna = "GATTACA";
+        result = findGene(dna);
+        System.out.println("DNA: " + dna);
+        System.out.println("Gene found: '" + result + "' (Expected: '')");
+
+        dna = "AATGCGTAATTAATCG";
+        result = findGene(dna);
+        System.out.println("DNA: " + dna);
+        System.out.println("Gene found: '" + result + "' (Expected: ATGCGTAA)");
+
+        dna = "AATGCTAGGGTAATATGGT";
+        result = findGene(dna);
+        System.out.println("DNA: " + dna);
+        System.out.println("Gene found: '" + result + "' (Expected: AATGCTAGGGTAA)");
+
+        dna = "ATGTTTTTTTTTT";
+        result = findGene(dna);
+        System.out.println("DNA: " + dna);
+        System.out.println("Gene found: '" + result + "' (Expected: '')");
+
+        dna = "ATGCCCGGGAAATAACCC";
+        result = findGene(dna);
+        System.out.println("DNA: " + dna);
+        System.out.println("Gene found: '" + result + "' (Expected: ATGCCCGGGAAATAA)");
+
+        System.out.println();
+    }
+
+    public void printAllGenes(String dna) {
+        int startIndex = 0;
+        while (true) {
+            int atgIndex = dna.indexOf("ATG", startIndex);
+            if (atgIndex == -1) break;
+
+            int taaIndex = findStopCodon(dna, atgIndex, "TAA");
+            int tagIndex = findStopCodon(dna, atgIndex, "TAG");
+            int tgaIndex = findStopCodon(dna, atgIndex, "TGA");
+
+            int minIndex = dna.length();
+            int foundIndex = -1;
+
+            if (taaIndex != -1 && taaIndex < minIndex) {
+                minIndex = taaIndex;
+                foundIndex = taaIndex;
+            }
+            if (tagIndex != -1 && tagIndex < minIndex) {
+                minIndex = tagIndex;
+                foundIndex = tagIndex;
+            }
+            if (tgaIndex != -1 && tgaIndex < minIndex) {
+                minIndex = tgaIndex;
+                foundIndex = tgaIndex;
+            }
+
+            if (foundIndex != -1) {
+                System.out.println("Gene found: " + dna.substring(atgIndex, minIndex + 3));
+                startIndex = minIndex + 3;
+            } else {
+                startIndex = atgIndex + 3; // Move past this "ATG"
+            }
         }
     }
 
-    public void testSimpleGene() {
-        String[] dnaStrings = {
-                "AAATGCCCTAACTAGATTAAGAAACC",   // Valid gene
-                "ATCCTATGCTTCGGCTGCTCTAATATGGT", // No TAA *after* ATG
-                "ATCCTTCGGCTGCTCTTTGGT",       // No ATG
-                "ATCCTATGCTTCGGCTGCTCTATGGT",   // No ATG or TAA
-                "ATGCGTCTATGACTAACGG"          // Not a multiple of 3
-        };
-
-        for (String dna : dnaStrings) {
-            System.out.println("DNA String: " + dna);
-            String gene = findSimpleGene(dna);
-            System.out.println("Gene: " + gene);
-            System.out.println(); // Print an empty line for separation
-        }
+    public void testPrintAllGenes() {
+        System.out.println("--- Testing printAllGenes ---");
+        printAllGenes("ATGTAAGATGCCCTAGTGA"); // Expected: ATGTAA, ATGCCCTAG
+        printAllGenes("ATGTTTTTTTTTGA"); // Expected: ATGTTTTTTTTTGA
+        printAllGenes("ATGCGCTAATAGCGCTAG"); // Expected: ATGCGCTAA
+        printAllGenes("ATGAAATGA"); // Expected: ATGAAATGA
+        printAllGenes("TGAATGAAATAA"); // Expected: ATGAAATAA
+        printAllGenes("ATGABCDEF"); // Expected:
+        printAllGenes("TAAATGCCCTAG"); // Expected: ATGCCCTAG
+        printAllGenes("ATGTAAXXXYYYATGZZZTAG"); // Expected: ATGTAA, ATGZZZTAG
+        System.out.println();
     }
+
 }
