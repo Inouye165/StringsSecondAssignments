@@ -77,7 +77,7 @@ public class Part1 {
         System.out.println("DNA: " + dna);
         System.out.println("Gene found: '" + result + "' (Expected: '')");
 
-        dna = "AATGCGTAATTAATCG";
+        dna = "AATGCTAACTAGCTGACTAAT";
         result = findGene(dna);
         System.out.println("DNA: " + dna);
         System.out.println("Gene found: '" + result + "' (Expected: ATGCGTAATTAA)");

@@ -44,7 +44,7 @@ public class Part3 {
 
     public void testCountGenes() {
         System.out.println("=== Testing countGenes ===");
-        String dna1 = "ATGTAAGATGCCCTAGT";
+        String dna1 = "CTGCCTGCATGATCGTA";
         System.out.println("DNA: " + dna1 + " -> Genes: " + countGenes(dna1));
         // Additional test cases...
     }
