@@ -12,7 +12,7 @@ public class App {
             System.out.println("=== StringsSecondAssignments Menu ===");
             System.out.println("1 - Run Part1 tests (find stop codons and genes)");
             System.out.println("2 - Run Part2");
-            System.out.println("3 - Run Part3");
+            System.out.println("3 - Run Part3 (Count Genes)");
             System.out.println("4 - Exit");
             System.out.print("Enter your choice: ");
 
@@ -29,16 +29,16 @@ public class App {
                     part1.testPrintAllGenes();
                     break;
                 case "2":
-                    // Run Part2
+                    // Run Part2 tests: count occurrences of a substring
                     Part2 part2 = new Part2();
                     System.out.println("\n--- Running Part2 ---");
                     part2.testHowMany();
                     break;
                 case "3":
-                    // Run Part3
-                    // Part3 part3 = new Part3();
-                    System.out.println("\n--- Running Part3 ---");
-                    // part3.testCountGenes();
+                    // Run Part3 tests: count the number of genes in a DNA strand
+                    Part3 part3 = new Part3();
+                    System.out.println("\n--- Running Part3 (Count Genes) ---");
+                    part3.testCountGenes();
                     break;
                 case "4":
                 case "exit":
