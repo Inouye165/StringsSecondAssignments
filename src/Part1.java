@@ -1,24 +1,9 @@
+import util.GeneUtils;
+
 public class Part1 {
 
     public int findStopCodon(String dna, int startIndex, String stopCodon) {
-        // Ensure startIndex is valid and we're looking for a stop codon after the start codon
-        if (startIndex < 0 || startIndex + 3 > dna.length()) {
-            return -1;
-        }
-
-        int currIndex = dna.indexOf(stopCodon, startIndex + 3);
-
-        while (currIndex != -1) {
-            // Check if the stop codon is a multiple of 3 from the start
-            if ((currIndex - startIndex) % 3 == 0) {
-                return currIndex;
-            }
-            // Look for next occurrence of stop codon
-            currIndex = dna.indexOf(stopCodon, currIndex + 1);
-        }
-
-        // No valid stop codon found
-        return -1;
+        return GeneUtils.findStopCodon(dna, startIndex, stopCodon);
     }
     public void testFindStopCodon() {
         System.out.println("=== testFindStopCodon ===");
@@ -95,7 +80,7 @@ public class Part1 {
         dna = "AATGCGTAATTAATCG";
         result = findGene(dna);
         System.out.println("DNA: " + dna);
-        System.out.println("Gene found: '" + result + "' (Expected: ATGCGTAA)");
+        System.out.println("Gene found: '" + result + "' (Expected: ATGCGTAATTAA)");
 
         dna = "AATGCTAGGGTAATATGGT";
         result = findGene(dna);
